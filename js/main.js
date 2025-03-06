@@ -14,7 +14,7 @@ function getComputerChoice () {
 }
 
 function getHumanChoice () {
-    return prompt("Rock, Paper or Sciccors?").toUpperCase();
+    return prompt("Rock, Paper or Scissors?").toUpperCase();
 }
 
 function playRound (humanChoice, computerChoice) {      // returns 0 on computer win and 1 on player win
@@ -62,8 +62,10 @@ function playGame (roundNum) {
         const humanSelection = getHumanChoice();
         const computerSelection = getComputerChoice();
         console.log(`You selected: ${humanSelection}\nComputer selected: ${computerSelection}`);
+
         let round = playRound(humanSelection, computerSelection);
         const score = `Score: Player: ${humanScore} Computer: ${computerScore}`;
+
         if (round == 1) {
             console.log("You win!")
             console.log(score);
