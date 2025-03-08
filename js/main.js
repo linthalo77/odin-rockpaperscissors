@@ -1,7 +1,39 @@
 let humanScore = 0;
 let computerScore = 0;
 
+onload = function() {
+    console.log("Started program!");
+    const rockBtn = document.querySelector(".rock");
+    const paperBtn = document.querySelector(".paper");
+    const scissorBtn = document.querySelector(".scissors");
+
+    let humanSelection = "";
+    let computerSelection = "";
+
+    rockBtn.addEventListener("click", () => {
+        humanSelection = "ROCK";
+        computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+    });
+
+    scissorBtn.addEventListener("click", () => {
+        humanSelection = "SCISSORS";
+        computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+    });
+
+    paperBtn.addEventListener("click", () => {
+        humanSelection = "PAPER";
+        computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+    });
+    
+    /*rockBtn.addEventListener("click", playRound("ROCK", getComputerChoice())); why doesn't this work???!*/ 
+
+}
+
 function getComputerChoice () {
+    console.log("Executes getComputerChoice");
     let chance = Math.random();
     let third = 1 / 3;
     if (chance <= third) {
@@ -13,72 +45,30 @@ function getComputerChoice () {
     }
 }
 
-function getHumanChoice () {
-    return prompt("Rock, Paper or Scissors?").toUpperCase();
-}
+function playRound (humanChoice, computerChoice) {
+    const selection = document.querySelector(".selection");
+    const roundWinner = document.querySelector(".round-winner");
+    const score = document.querySelector(".score");
 
-function playRound (humanChoice, computerChoice) {      // returns 0 on computer win and 1 on player win
-    humanChoice = humanChoice.toUpperCase();
+    selection.textContent = `You selected: ${humanChoice}\nComputer selected: ${computerChoice}`;
 
-    if (humanChoice == computerChoice)
-        return -1;
-
-    if (humanChoice == "ROCK") {
-        if (computerChoice == "PAPER") {
-            computerChoice++;
-            return 0;
-        } else {
-            humanScore++;
-            return 1;
-        }
+    if (humanChoice == computerChoice) {
+        roundWinner.textContent = "Tie!";
+    } else if (humanChoice == "ROCK" && computerChoice != "PAPER" || humanChoice == "PAPER" && computerChoice != "SCISSORS" || humanChoice == "SCISSORS" && computerChoice != "ROCK") {
+        humanScore++;
+        roundWinner.textContent = "You win!"
+    } else {
+        computerScore++;
+        roundWinner.textContent = "You lose!"
     }
 
-    if (humanChoice == "PAPER") {
-        if (computerChoice == "SCISSORS") {
-            computerScore++;
-            return 0;
-        } else {
-            humanScore++;
-            return 1;
-        }
-    }
+    score.textContent = `Score: Player: ${humanScore} Computer: ${computerScore}`;
 
-    if (humanChoice == "SCISSORS") {
-        if (computerChoice == "ROCK") {
-            computerScore++;
-            return 0;
-        } else {
-            humanScore++;
-            return 1;
-        }
-        
+    if (humanScore >= 5)
+        alert("You win!")
+    else if (computerScore >= 5) {
+        alert("Computer wins!")
     }
 }
 
-function playGame (roundNum) {
-    console.log("Best of " + roundNum);
-    let i = 0;
-    while (i < roundNum) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        console.log(`You selected: ${humanSelection}\nComputer selected: ${computerSelection}`);
 
-        let round = playRound(humanSelection, computerSelection);
-        const score = `Score: Player: ${humanScore} Computer: ${computerScore}`;
-
-        if (round == 1) {
-            console.log("You win!")
-            console.log(score);
-        } else if (round == 0) {
-            console.log("Computer wins!")
-            console.log(score);
-        } else {
-            console.log("Tie!")
-            console.log(score);
-        }
-        ++i;
-    }
-
-}
-
-playGame(5);
