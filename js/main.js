@@ -52,6 +52,7 @@ function playRound (humanChoice, computerChoice) {
 
     selection.textContent = `You selected: ${humanChoice}\nComputer selected: ${computerChoice}`;
 
+    if (humanScore < 5 && computerScore < 5)
     if (humanChoice == computerChoice) {
         roundWinner.textContent = "Tie!";
     } else if (humanChoice == "ROCK" && computerChoice != "PAPER" || humanChoice == "PAPER" && computerChoice != "SCISSORS" || humanChoice == "SCISSORS" && computerChoice != "ROCK") {
